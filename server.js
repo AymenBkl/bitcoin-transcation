@@ -26,14 +26,9 @@ server = app.listen(port, () => console.log(`Server running on port ${port}`));
 function getblockCount(){
     var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"getblockcount","params":[]}`;
   var options = {
-    url: `http://127.0.0.1:8333/`,
+    url: `http://${USER}:${PASS}@127.0.0.1:8333/`,
     method: "POST",
     headers: headers,
-    auth:{
-      user:USER,
-      pass:PASS,
-      sendImmediately:false
-    },
     body: dataString
   };
 
