@@ -15,70 +15,70 @@ const headers = {
 router.get("/test", (req, res) => res.json({ msg: "backend works" }));
 
 router.get("/getblockcount", (req, res) => {
-  getInfo(res,req.url.substring(1));
+  getInfo(res,req.url.split('/')[1]);
 });
 
 router.get("/getbestblockhash", (req, res) => {
-  getInfo(res,req.url.substring(1));
+  getInfo(res,req.url.split('/')[1]);
 });
 
 router.get("/getconnectioncount", (req, res) => {
-  getInfo(res,req.url.substring(1));
+  getInfo(res,req.url.split('/')[1]);
 });
 
 router.get("/getdifficulty", (req, res) => {
-  getInfo(res,req.url.substring(1));
+  getInfo(res,req.url.split('/')[1]);
 });
 
 router.get("/getblockchaininfo", (req, res) => {
-  getInfo(res,req.url.substring(1));
+  getInfo(res,req.url.split('/')[1]);
 });
 
 router.get("/getmininginfo", (req, res) => {
-  getInfo(res,req.url.substring(1));
+  getInfo(res,req.url.split('/')[1]);
 });
 
 router.get("/getaccountaddress", (req, res) => {
-  getInfo(res,req.url.substring(1));
+  getInfo(res,req.url.split('/')[1]);
 });
 router.get("/getpeerinfo", (req, res) => {
-  getInfo(res,req.url.substring(1));
+  getInfo(res,req.url.split('/')[1]);
 });
 
 router.get("/getrawmempool", (req, res) => {
-  getInfo(res,req.url.substring(1));
+  getInfo(res,req.url.split('/')[1]);
 });
 
 router.get("/getnewaddress", (req, res) => {
-  getInfo(res,req.url.substring(1));
+  getInfo(res,req.url.split('/')[1]);
 });
 
 router.get("/walletlock", (req, res) => {
-  getInfo(res,req.url.substring(1));
+  getInfo(res,req.url.split('/')[1]);
 });
 
 router.get("/getbalance", (req, res) => {
-  getInfo(res,req.url.substring(1));
+  getInfo(res,req.url.split('/')[1]);
 });
 
 router.get("/dumpprivkey/:address", (req, res) => {
-  getInfo(res,req.url.substring(1),req.params.address);
+  getInfo(res,req.url.split('/')[1],"-addresstype " + req.params.address);
 });
 
 router.get("/getblock/:hash", (req, res) => {
-  getInfo(res,req.url.substring(1),req.params.hash);
+  getInfo(res,req.url.split('/')[1],req.params.hash);
 });
 
 router.get("/getblockhash/:index", (req, res) => {
-  getInfo(res,req.url.substring(1),req.params.index);
+  getInfo(res,req.url.split('/')[1],req.params.index);
 });
 
 router.get("/getrawtransaction/:id", (req, res) => {
-  getInfo(res,req.url.substring(1),req.params.id);
+  getInfo(res,req.url.split('/')[1],req.params.id);
 });
 
 router.get("/decoderawtransaction/:hex", (req, res) => {
-  getInfo(res,req.url.substring(1),req.params.hex.toString());
+  getInfo(res,req.url.split('/')[1],req.params.hex.toString());
 });
 
 function getInfo(res,url,params = ''){
