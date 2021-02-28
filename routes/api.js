@@ -66,7 +66,7 @@ function getInfo(res,url){
   console.log(url)
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${url}","params":[]}`;
   var options = {
-    url: `http://167.99.213.37:8332/`,
+    url: `http://127.0.0.1:8332/`,
     method: "POST",
     headers: headers,
     auth:{
