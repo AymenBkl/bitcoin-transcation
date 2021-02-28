@@ -26,3 +26,6 @@ router.get('/genprivatekeywif', (req, res, next) => {
     console.log(privateKey);
     console.log(privateKey.toAddress());
 })
+
+
+module.exports = router;
