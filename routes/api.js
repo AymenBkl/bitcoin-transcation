@@ -82,6 +82,8 @@ function getInfo(res,url,params = ''){
 
   callback = (error, response, body) => {
     console.log("err",error);
+    console.log('response',response.statusCode);
+    console.log('body',body);
     if (!error && response.statusCode == 200) {
       const data = JSON.parse(body);
       res.send(data);
