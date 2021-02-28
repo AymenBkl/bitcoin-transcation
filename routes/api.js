@@ -49,7 +49,7 @@ router.get("/getrawmempool", (req, res) => {
   getInfo(res,req.url.substring(1));
 });
 
-router.get("/getnewaddress/:method", (req, res) => {
+router.get("/getnewaddress", (req, res) => {
   getInfo(res,req.url.substring(1),'legacy');
 });
 
