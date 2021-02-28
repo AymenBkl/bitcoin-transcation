@@ -8,7 +8,7 @@ let insight = new Insight('testnet');
 router.get('/genprivatekey', (req, res, next) => {
     const privateKey = new bitcore.PrivateKey();
     console.log(privateKey);
-    console.log(privateKey.toAddress().hashBuffer.toString('hex'));
+    console.log(privateKey.toAddress('testnet'));
 })
 
 router.get('/genprivatekeysha256', (req, res, next) => {
@@ -22,17 +22,18 @@ router.get('/genprivatekeysha256', (req, res, next) => {
 })
 
 router.get('/genprivatekeywif', (req, res, next) => {
-    const wif = 'xBtatQED9H44gCmp6HAdmemAzU3n84H3dGkuWTKvE23JgHMW8gct';
-    const privateKey = new bitcore.PrivateKey(wif);
+    const wif = 'cQ4tueVFAueyXsS7DhQfU1bhP35NKaGmA9EYWufNthD1XCDXhddy';
+    const privateKey = bitcore.PrivateKey.fromWIF(wif);
+    const address = privateKey.toAddress();
     console.log(privateKey);
-    console.log(privateKey.toAddress());
+    console.log(address);
 })
 
 router.get('/genprivatekey1', (req, res, next) => {
-    const wif = 'xBtatQED9H44gCmp6HAdmemAzU3n84H3dGkuWTKvE23JgHMW8gct';
-    const privateKey = new bitcore.PrivateKey(wif);
-    console.log(privateKey);
-    console.log(privateKey.toAddress());
+    const rand_buffer = bitcore.crypto.Random.getRandomBuffer(32);
+    const rand_number = bitcore.crypto.BN.fromBuffer(rand_buffer);
+    const address = new bitcore.PrivateKey('testnet').toWIF();
+    console.log(address);
 })
 
 
