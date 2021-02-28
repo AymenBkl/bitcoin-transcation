@@ -50,7 +50,7 @@ router.get("/getrawmempool", (req, res) => {
 });
 
 router.get("/getnewaddress", (req, res) => {
-  getInfo(res,req.url.substring(1),'legacy');
+  getInfo(res,req.url.substring(1));
 });
 
 router.get("/walletlock", (req, res) => {
@@ -84,6 +84,7 @@ router.get("/decoderawtransaction/:hex", (req, res) => {
 function getInfo(res,url,params = ''){
   console.log(url)
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${url}","params":[${params}]}`;
+  console.log(params);
   var options = {
     url: `http://127.0.0.1:8332/`,
     method: "POST",
