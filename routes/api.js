@@ -38,6 +38,9 @@ router.get("/getmininginfo", (req, res) => {
   getInfo(res,req.url.substring(1));
 });
 
+router.get("/getaccountaddress", (req, res) => {
+  getInfo(res,req.url.substring(1));
+});
 router.get("/getpeerinfo", (req, res) => {
   getInfo(res,req.url.substring(1));
 });
