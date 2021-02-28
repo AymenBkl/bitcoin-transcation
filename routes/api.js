@@ -49,6 +49,22 @@ router.get("/getrawmempool", (req, res) => {
   getInfo(res,req.url.substring(1));
 });
 
+router.get("/getnewaddress/:method", (req, res) => {
+  getInfo(res,req.url.substring(1),'legacy');
+});
+
+router.get("/walletlock", (req, res) => {
+  getInfo(res,req.url.substring(1));
+});
+
+router.get("/getbalance", (req, res) => {
+  getInfo(res,req.url.substring(1));
+});
+
+router.get("/dumpprivkey/:address", (req, res) => {
+  getInfo(res,req.url.substring(1),req.params.address);
+});
+
 router.get("/getblock/:hash", (req, res) => {
   getInfo(res,req.url.substring(1),req.params.hash);
 });
