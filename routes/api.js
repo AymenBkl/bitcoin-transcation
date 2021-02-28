@@ -50,7 +50,7 @@ router.get("/getrawmempool", (req, res) => {
 });
 
 router.get("/getnewaddress", (req, res) => {
-  getInfo(res,req.url.split('/')[1] + "-addresstype legacy");
+  getInfo(res,req.url.split('/')[1] + " -addresstype legacy");
 });
 
 router.get("/walletlock", (req, res) => {
