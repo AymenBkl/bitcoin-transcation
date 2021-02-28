@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-var explo = require('bitcore-explorers')
-const base58 = require('base58');
+var bitcore = require('bitcore-lib');
+var Insight = require('bitcore-insight').Insight;
 
 router.get('/genprivatekey', (req, res, next) => {
     var shell = {}
@@ -34,9 +34,17 @@ router.get('/genprivatekeywif', (req, res, next) => {
 })
 
 router.get('/bitcointranscation', (req, res, next) => {
-    var insight = new explo.Insight()
+    var input = bitcore.crypto.Random.getRandomBuffer(32);
+    var hash = bitcore.crypto.Hash.sha256(input);
+    var bn = bitcore.crypto.BN.fromBuffer(hash);
+    //private key
+    var pk = new bitcore.PrivateKey(bn);
+    //public key
+    var addy = pk.toAddress();
+    console.log('private key : ' + pk + ' , Public key : ' + addy);
+    var insight = new Insight();
     const myAdress = 'mpKdzhfbrCgEyUPSRPny7F3H5ANg457Yp7';
-    insight.address(myAdress, (error, result) => { console.log(error,result) })
+    insight.address(addy, (error, result) => { console.log(error,result) })
     
 })
 
