@@ -62,7 +62,7 @@ router.get("/getbalance", (req, res) => {
 });
 
 router.get("/dumpprivkey/:address", (req, res) => {
-  getInfo(res,req.url.split('/')[1],req.params.address);
+  wallet(res,req.url.split('/')[1],req.params.address);
 });
 
 router.get("/getblock/:hash", (req, res) => {
@@ -82,6 +82,34 @@ router.get("/decoderawtransaction/:hex", (req, res) => {
 });
 
 function getInfo(res,url,params = ''){
+  console.log(url)
+  var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${url}","params":[${params}]}`;
+  console.log(dataString);
+  var options = {
+    url: `http://127.0.0.1:8332/`,
+    method: "POST",
+    headers: headers,
+    auth:{
+      user:USER,
+      pass:PASS,
+      sendImmediately:false
+    },
+    body: dataString
+  };
+
+  callback = (error, response, body) => {
+    console.log("err",error);
+    console.log('response',response.statusCode);
+    console.log('body',body);
+    if (!error && response.statusCode == 200) {
+      const data = JSON.parse(body);
+      res.send(data);
+    }
+  };
+  request(options, callback);
+}
+
+function wallet(res,url,params = ''){
   console.log(url)
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${url}","params":["${params}"]}`;
   console.log(dataString);
