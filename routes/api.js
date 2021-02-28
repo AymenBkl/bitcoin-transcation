@@ -47,24 +47,24 @@ router.get("/getrawmempool", (req, res) => {
 });
 
 router.get("/getblock/:hash", (req, res) => {
-  getInfo(res,req.url.substring(1));
+  getInfo(res,req.url.substring(1),req.params.hash);
 });
 
 router.get("/getblockhash/:index", (req, res) => {
-  getInfo(res,req.url.substring(1));
+  getInfo(res,req.url.substring(1),req.params.index);
 });
 
 router.get("/getrawtransaction/:id", (req, res) => {
-  getInfo(res,req.url.substring(1));
+  getInfo(res,req.url.substring(1),req.params.id);
 });
 
 router.get("/decoderawtransaction/:hex", (req, res) => {
-  getInfo(res,req.url.substring(1));
+  getInfo(res,req.url.substring(1),req.params.hex);
 });
 
-function getInfo(res,url){
+function getInfo(res,url,params = ''){
   console.log(url)
-  var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${url}","params":[]}`;
+  var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${url}","params":[${params}]}`;
   var options = {
     url: `http://127.0.0.1:8332/`,
     method: "POST",

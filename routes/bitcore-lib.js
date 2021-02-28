@@ -25,7 +25,7 @@ router.get('/genprivatekeywif', (req, res, next) => {
     const privateKey = bitcore.PrivateKey.fromWIF(wif);
     const address = privateKey.toAddress();
     console.log(privateKey);
-    console.log(address.hashBuffer.toString('hex'));
+    console.log(address);
 })
 
 router.get('/genprivatekey1', (req, res, next) => {
