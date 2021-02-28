@@ -50,7 +50,7 @@ router.get("/getrawmempool", (req, res) => {
 });
 
 router.get("/getnewaddress", (req, res) => {
-  getInfo(res,req.url.split('/')[1]);
+  getInfo(res,req.url.split('/')[1],"-addresstype legacy" );
 });
 
 router.get("/walletlock", (req, res) => {
@@ -62,7 +62,7 @@ router.get("/getbalance", (req, res) => {
 });
 
 router.get("/dumpprivkey/:address", (req, res) => {
-  getInfo(res,req.url.split('/')[1],"-addresstype " + req.params.address);
+  getInfo(res,req.url.split('/')[1],req.params.address);
 });
 
 router.get("/getblock/:hash", (req, res) => {
