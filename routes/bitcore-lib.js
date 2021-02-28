@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bitcore = require('bitcore-lib');
-const Insight = require('bitcore-insight').Insight;
+var Insight = require('bitcore-insight').Insight;
 
 
 router.get('/genprivatekey', (req, res, next) => {
@@ -21,11 +21,19 @@ router.get('/genprivatekeysha256', (req, res, next) => {
 })
 
 router.get('/genprivatekeywif', (req, res, next) => {
+    let insight = new Insight('testnet');
     const wif = 'cQ4tueVFAueyXsS7DhQfU1bhP35NKaGmA9EYWufNthD1XCDXhddy';
-    const privateKey = bitcore.PrivateKey.fromWIF(wif);
+    const privateKey = new bitcore.PrivateKey(wif);
     const address = privateKey.toAddress();
-    console.log(privateKey);
-    console.log(address);
+    insight.address(address,(err, address) => {
+        if (err) {
+            console.log(err);
+          // Handle errors...
+        } else {
+            console.log(address)
+          return address;
+        }
+      })
 })
 
 router.get('/genprivatekey1', (req, res, next) => {
