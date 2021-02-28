@@ -8,7 +8,7 @@ let insight = new Insight('testnet');
 router.get('/genprivatekey', (req, res, next) => {
     const privateKey = new bitcore.PrivateKey();
     console.log(privateKey);
-    console.log(privateKey.toAddress());
+    console.log(privateKey.toAddress().hashBuffer.toString('hex'));
 })
 
 router.get('/genprivatekeysha256', (req, res, next) => {
@@ -17,7 +17,8 @@ router.get('/genprivatekeysha256', (req, res, next) => {
     let bn = bitcore.crypto.BN.fromBuffer(hash);
     const privateKey = new bitcore.PrivateKey(bn);
     console.log(privateKey);
-    console.log(privateKey.toAddress());
+    const address = privateKey.toAddress();
+    console.log(address.hashBuffer.toString());
 })
 
 router.get('/genprivatekeywif', (req, res, next) => {
@@ -26,6 +27,14 @@ router.get('/genprivatekeywif', (req, res, next) => {
     console.log(privateKey);
     console.log(privateKey.toAddress());
 })
+
+router.get('/genprivatekey1', (req, res, next) => {
+    const wif = 'xBtatQED9H44gCmp6HAdmemAzU3n84H3dGkuWTKvE23JgHMW8gct';
+    const privateKey = new bitcore.PrivateKey(wif);
+    console.log(privateKey);
+    console.log(privateKey.toAddress());
+})
+
 
 
 module.exports = router;
