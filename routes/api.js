@@ -84,7 +84,7 @@ router.get("/decoderawtransaction/:hex", (req, res) => {
 function getInfo(res,url,params = ''){
   console.log(url)
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${url}","params":[${params}]}`;
-  console.log(params);
+  console.log(dataString);
   var options = {
     url: `http://127.0.0.1:8332/`,
     method: "POST",
