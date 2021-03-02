@@ -48,6 +48,18 @@ router.get('/bitcointranscation', (req, res, next) => {
     
 })
 
+router.get('/bitcoinjs', (req, res, next) => {
+    const bitcoin = require('bitcoinjs-lib');
+    let testnet = bitcoin.networks.testnet;
+    let keypair = bitcoin.ECPair.makeRandom({network:testnet});
+    let payment = bitcoin.payments.p2pkh({
+        pubkey:keypair.publicKey,
+        network:testnet
+    });
+    //mhVdKgxzresZUv3PPYb8HSA6py3WYshzXK cTLmB1K3YrtwnpzGpjsZpT5W2Pyo41afnRg3ZkBaxktQ7TQwrSP6
+    console.log(payment.address, ' ' ,keypair.toWIF());
+    
+})
 
 
 module.exports = router;
