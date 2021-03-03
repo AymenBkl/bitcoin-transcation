@@ -56,8 +56,24 @@ router.get('/bitcoinjs', (req, res, next) => {
         pubkey:keypair.publicKey,
         network:testnet
     });
-    //mhVdKgxzresZUv3PPYb8HSA6py3WYshzXK cTLmB1K3YrtwnpzGpjsZpT5W2Pyo41afnRg3ZkBaxktQ7TQwrSP6
+    //mkiJSzDEGvsJJ7Rma6HV718roQ5Rj2jH9P cRLVb8zKie7ULxtd4RKEpXAHmjB9NtTrQnvyu7qRXFHqwcjWZn1y
     console.log(payment.address, ' ' ,keypair.toWIF());
+
+    let txb = new bitcoin.TransactionBuilder(testnet);
+    let txid = '173e17bf1590de797c6b3770fdc40ee7005688476badc5af471013ab99dd6350';
+    let outn = 0;
+    txb.addInput(txid,outn);
+    txb.addOutput('mkiJSzDEGvsJJ7Rma6HV718roQ5Rj2jH9P',20);
+    let WIF = 'cRLVb8zKie7ULxtd4RKEpXAHmjB9NtTrQnvyu7qRXFHqwcjWZn1y';
+    let keypairspend = bitcoin.ECPair.fromWIF(WIF,testnet);
+    txb.sign(0,keypairspend);
+    let tx = txb.build();
+    let txhex = tx.toHex();
+    console.log(txhex);
+
+
+
+
     
 })
 
