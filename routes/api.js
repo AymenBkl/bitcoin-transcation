@@ -16,80 +16,74 @@ router.get("/test", (req, res) => res.json({ msg: "backend works" }));
 
 router.get("/getblockcount", (req, res) => {
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${req.url.split('/')[1]}","params":[]}`;
-  response(res,dataString);
+  response(res,req.url.split('/')[1],dataString);
 });
 
 router.get("/getbestblockhash", (req, res) => {
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${req.url.split('/')[1]}","params":[]}`;
-  response(res,dataString);
+  response(res,req.url.split('/')[1],dataString);
 });
 
 router.get("/getconnectioncount", (req, res) => {
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${req.url.split('/')[1]}","params":[]}`;
-  response(res,dataString);
+  response(res,req.url.split('/')[1],dataString);
 });
 
 router.get("/getdifficulty", (req, res) => {
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${req.url.split('/')[1]}","params":[]}`;
-  response(res,dataString);
+  response(res,req.url.split('/')[1],dataString);
 });
 
 router.get("/getblockchaininfo", (req, res) => {
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${req.url.split('/')[1]}","params":[]}`;
-  response(res,dataString);
+  response(res,req.url.split('/')[1],dataString);
 });
 
 router.get("/getmininginfo", (req, res) => {
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${req.url.split('/')[1]}","params":[]}`;
-  response(res,dataString);
+  response(res,req.url.split('/')[1],dataString);
 });
 
 router.get("/getaccountaddress", (req, res) => {
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${req.url.split('/')[1]}","params":[]}`;
-  response(res,dataString);
+  response(res,req.url.split('/')[1],dataString);
 });
 router.get("/getpeerinfo", (req, res) => {
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${req.url.split('/')[1]}","params":[]}`;
-  response(res,dataString);
+  response(res,req.url.split('/')[1],dataString);
 });
 
 router.get("/getrawmempool", (req, res) => {
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${req.url.split('/')[1]}","params":[]}`;
-  response(res,dataString);
+  response(res,req.url.split('/')[1],dataString);
 });
 
 router.get("/getnewaddress", (req, res) => {
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${req.url.split('/')[1]}","params":["-addresstype legacy"]}`;
-  response(res,dataString);
+  response(res,req.url.split('/')[1],dataString);
 });
 
 router.get("/walletlock", (req, res) => {
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${req.url.split('/')[1]}","params":[]}`;
-  response(res,dataString);
+  response(res,req.url.split('/')[1],dataString);
 });
 
 router.get("/getbalance", (req, res) => {
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${req.url.split('/')[1]}","params":[]}`;
-  response(res,dataString);
+  response(res,req.url.split('/')[1],dataString);
 });
 
 router.post("/sendtoaddress", (req, res) => {
   const url = req.url.split('/')[1];
-  var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${url}","params":{"address":"${req.body.address}","amount":${req.body.amount},"fee_rate":${req.body.fee}}}`;
-  callback = (error, response, body) => {
-    console.log(error);
-    if (error || response.statusCode != 200){
-      console.log('here')
-      res.json({err:"Something Went Wrong",method:url,status:response.statusCode,message:JSON.parse(body)})
-    }
-    if (!error && response.statusCode == 200) {
-      console.log('here2')
-      const data = JSON.parse(body);
-      console.log(data.result);
-      res.json({data:data});
-    }
-  };
-  prepareRequest(res,dataString,callback);
+  confirmAddress(res,1,req.body.address)
+    .then((result) => {
+      console.log(result);
+      var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${url}","params":{"address":"${req.body.address}","amount":${req.body.amount},"fee_rate":${req.body.fee}}}`;
+      response(res,url,dataString)
+    })
+    .catch(err => {
+      res.json({err:"Something Went Wrong",method:url,status:response.statusCode,message:err})
+    });
 });
 
 router.post("/listunspent", (req, res) => {
@@ -99,55 +93,43 @@ router.post("/listunspent", (req, res) => {
   })
   const url = req.url.split('/')[1];
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${url}","params":[${req.body.minconf},${req.body.maxconf},[${addresses}]]}`;
-  callback = (error, response, body) => {
-    if (error || response.statusCode != 200){
-      console.log('here')
-      res.json({err:"Something Went Wrong",method:url,status:response.statusCode,message:JSON.parse(body)})
-    }
-    if (!error && response.statusCode == 200) {
-      console.log('here2')
-      const data = JSON.parse(body);
-      console.log(data.result);
-      res.json({data:data});
-    }
-  };
-  prepareRequest(res,dataString,callback);
+  response(res,url,dataString);
 });
 
 router.get("/walletpassphrase", (req, res) => {
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${req.url.split('/')[1]}","params":["${PASS + " 3600"}"]}`;
-  response(res,dataString);
+  response(res,req.url.split('/')[1],dataString);
 });
 
 router.get("/dumpprivkey/:address", (req, res) => {
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${req.url.split('/')[1]}","params":["${req.params.address}"]}`;
-  response(res,dataString);
+  response(res,req.url.split('/')[1],dataString);
 });
 
 router.get("/getblock/:hash", (req, res) => {
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${req.url.split('/')[1]}","params":[${req.params.hash}]}`;
-  response(res,dataString);
+  response(res,req.url.split('/')[1],dataString);
 });
 
 router.get("/getblockhash/:index", (req, res) => {
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${req.url.split('/')[1]}","params":[${req.params.index}]}`;
-  response(res,dataString);
+  response(res,req.url.split('/')[1],dataString);
 });
 
 router.get("/getrawtransaction/:id", (req, res) => {
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${req.url.split('/')[1]}","params":[${req.params.id}]}`;
-  response(res,dataString);
+  response(res,req.url.split('/')[1],dataString);
 });
 
 router.get("/decoderawtransaction/:hex", (req, res) => {
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${req.url.split('/')[1]}","params":[${req.params.hex.toString()}]}`;
-  response(res,dataString);
+  response(res,req.url.split('/')[1],dataString);
 });
 
-function prepareRequest(res,dataString,callback){
+function prepareRequest(dataString,callback){
   console.log(dataString);
   var options = {
-    url: `http://167.99.213.37:80/wallet/bitexplodetest3`,
+    url: `http://167.99.213.37:80/wallet/bitexplode-test1`,
     method: "POST",
     headers: headers,
     auth:{
@@ -160,7 +142,7 @@ function prepareRequest(res,dataString,callback){
   request(options, callback);
 }
 
-function getInfo(dataString){
+function getInfo(url,dataString){
   return new Promise((resolve,reject) => {
     callback = (error, response, body) => {
       if (error || response.statusCode != 200){
@@ -174,12 +156,12 @@ function getInfo(dataString){
         resolve({data:data});
       }
     };
-    prepareRequest('',dataString,callback);
+    prepareRequest(dataString,callback);
   })
 }
 
-function response(res,dataString) {
-  getInfo(dataString)
+function response(res,url,dataString) {
+  getInfo(url,dataString)
     .then(result => {
       res.json(result)
     })
@@ -187,6 +169,28 @@ function response(res,dataString) {
       res.json(err);
     })
 }
+
+function confirmAddress(res,numberBlocks,address){
+  return new Promise((resolve,reject) => {
+    var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"generatetoaddress","params":[${numberBlocks},"${address}"]}`;
+    console.log(dataString);
+    callback = (error, response, body) => {
+      if (error || response.statusCode != 200){
+        console.log('here')
+        reject({err:"Something Went Wrong",method:'generatetoaddress',status:response.statusCode,message:JSON.parse(body)});
+      }
+      if (!error && response.statusCode == 200) {
+        console.log('here2')
+        const data = JSON.parse(body);
+        console.log(data.result);
+        resolve({data:data});
+      }
+    };
+    prepareRequest(dataString,callback);
+  }) 
+}
+
+
 
 
 module.exports = router;
