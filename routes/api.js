@@ -63,7 +63,6 @@ router.get("/getbalance", (req, res) => {
 
 router.post("/sendtoaddress", (req, res) => {
   const url = req.url.split('/')[1];
-  console.log(address,url);
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${url}","params":[${req.body.address},${req.body.amount},"","",true]}`;
   console.log(dataString);
   var options = {
