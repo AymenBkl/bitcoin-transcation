@@ -64,29 +64,39 @@ router.get("/getbalance", (req, res) => {
 router.post("/sendtoaddress", (req, res) => {
   const url = req.url.split('/')[1];
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${url}","params":{"address":"${req.body.address}","amount":${req.body.amount},"fee_rate":${req.body.fee}}}`;
-  console.log(dataString);
-  var options = {
-    url: `http://167.99.213.37:80/wallet/bitexplode-test1`,
-    method: "POST",
-    headers: headers,
-    auth:{
-      user:USER,
-      pass:PASS,
-      sendImmediately:false
-    },
-    body: dataString
-  };
-
   callback = (error, response, body) => {
-    if (error || response != 200){
-      res.send({err:"Something Went Wrong",method:url,status:response.statusCode,message:JSON.parse(body)})
+    console.log(error);
+    if (error || response.statusCode != 200){
+      console.log('here')
+      res.json({err:"Something Went Wrong",method:url,status:response.statusCode,message:JSON.parse(body)})
     }
     if (!error && response.statusCode == 200) {
+      console.log('here2')
       const data = JSON.parse(body);
-      res.send(data);
+      console.log(data.result);
+      res.json({data:data});
     }
   };
-  request(options, callback);
+  prepareRequest(res,dataString,callback);
+});
+
+router.post("/listunspent", (req, res) => {
+  const url = req.url.split('/')[1];
+  var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${url}","params":[${req.body.minconf},${req.body.maxconf},["${req.body.addresses}"]]}`;
+  callback = (error, response, body) => {
+    console.log(error);
+    if (error || response.statusCode != 200){
+      console.log('here')
+      res.json({err:"Something Went Wrong",method:url,status:response.statusCode,message:JSON.parse(body)})
+    }
+    if (!error && response.statusCode == 200) {
+      console.log('here2')
+      const data = JSON.parse(body);
+      console.log(data.result);
+      res.json({data:data});
+    }
+  };
+  prepareRequest(res,dataString,callback);
 });
 
 router.get("/walletpassphrase", (req, res) => {
@@ -113,12 +123,28 @@ router.get("/decoderawtransaction/:hex", (req, res) => {
   getInfo(res,req.url.split('/')[1],req.params.hex.toString());
 });
 
-function getInfo(res,url,params = ''){
-  console.log(url)
-  var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${url}","params":[${params}]}`;
+function prepareRequest(res,dataString,callback){
   console.log(dataString);
   var options = {
-    url: `http://127.0.0.1:8332/`,
+    url: `http://167.99.213.37:80/wallet/bitexplodetest3`,
+    method: "POST",
+    headers: headers,
+    auth:{
+      user:USER,
+      pass:PASS,
+      sendImmediately:false
+    },
+    body: dataString
+  };
+  request(options, callback);
+}
+
+function getInfo(res,url,params = ''){
+  console.log(url)
+  var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${url}","params":["${params}"]}`;
+  console.log(dataString);
+  var options = {
+    url: `http://167.99.213.37:80/wallet/bitexplode-test1`,
     method: "POST",
     headers: headers,
     auth:{
@@ -135,7 +161,8 @@ function getInfo(res,url,params = ''){
     console.log('body',body);
     if (!error && response.statusCode == 200) {
       const data = JSON.parse(body);
-      res.send(data);
+      console.log(data);
+      return data;
     }
   };
   request(options, callback);
@@ -146,7 +173,7 @@ function wallet(res,url,params = ''){
   var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${url}","params":["${params}"]}`;
   console.log(dataString);
   var options = {
-    url: `http://127.0.0.1:8332/`,
+    url: `http://167.99.213.37:80/wallet/bitexplode-test1`,
     method: "POST",
     headers: headers,
     auth:{
