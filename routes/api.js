@@ -176,7 +176,6 @@ function confirmAddress(res,numberBlocks,address){
     console.log(dataString);
     callback = (error, response, body) => {
       if (error || response.statusCode != 200){
-        console.log('here')
         reject({err:"Something Went Wrong",method:'generatetoaddress',status:response.statusCode,message:JSON.parse(body)});
       }
       if (!error && response.statusCode == 200) {
