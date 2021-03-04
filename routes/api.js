@@ -61,13 +61,14 @@ router.get("/getbalance", (req, res) => {
   getInfo(res,req.url.split('/')[1]);
 });
 
-router.get("/sendtoaddress", (req, res) => {
+router.post("/sendtoaddress", (req, res) => {
   const url = req.url.split('/')[1];
-  
-  var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${url}","params":[${params}]}`;
+  const address = req.body.address;
+  console.log(address,url);
+  var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${url}","params":[${address},"","",true]}`;
   console.log(dataString);
   var options = {
-    url: `http://127.0.0.1:8332/`,
+    url: `http://127.0.0.1:18443/wallet/bitexplode-test1`,
     method: "POST",
     headers: headers,
     auth:{
