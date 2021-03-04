@@ -61,6 +61,35 @@ router.get("/getbalance", (req, res) => {
   getInfo(res,req.url.split('/')[1]);
 });
 
+router.get("/sendtoaddress", (req, res) => {
+  const url = req.url.split('/')[1];
+  
+  var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${url}","params":[${params}]}`;
+  console.log(dataString);
+  var options = {
+    url: `http://127.0.0.1:8332/`,
+    method: "POST",
+    headers: headers,
+    auth:{
+      user:USER,
+      pass:PASS,
+      sendImmediately:false
+    },
+    body: dataString
+  };
+
+  callback = (error, response, body) => {
+    console.log("err",error);
+    console.log('response',response.statusCode);
+    console.log('body',body);
+    if (!error && response.statusCode == 200) {
+      const data = JSON.parse(body);
+      res.send(data);
+    }
+  };
+  request(options, callback);
+});
+
 router.get("/walletpassphrase", (req, res) => {
   wallet(res,req.url.split('/')[1],PASS + " 3600");
 });
