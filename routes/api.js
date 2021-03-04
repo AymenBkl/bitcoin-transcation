@@ -63,10 +63,10 @@ router.get("/getbalance", (req, res) => {
 
 router.post("/sendtoaddress", (req, res) => {
   const url = req.url.split('/')[1];
-  var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${url}","params":["${req.body.address}",${req.body.amount},"","",true]}`;
+  var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${url}","params":{"address":"${req.body.address}","amount":${req.body.amount},"fee_rate":${req.body.fee}}}`;
   console.log(dataString);
   var options = {
-    url: `http://127.0.0.1:18443/wallet/bitexplode-test1`,
+    url: `http://167.99.213.37:80/wallet/bitexplode-test1`,
     method: "POST",
     headers: headers,
     auth:{
@@ -78,9 +78,9 @@ router.post("/sendtoaddress", (req, res) => {
   };
 
   callback = (error, response, body) => {
-    console.log("err",error);
-    console.log('response',response.statusCode);
-    console.log('body',body);
+    if (error || response != 200){
+      res.send({err:"Something Went Wrong",method:url,status:response.statusCode,message:JSON.parse(body)})
+    }
     if (!error && response.statusCode == 200) {
       const data = JSON.parse(body);
       res.send(data);
