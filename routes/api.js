@@ -162,18 +162,6 @@ function prepareRequest(res,dataString,callback){
 
 function getInfo(dataString){
   return new Promise((resolve,reject) => {
-    var options = {
-      url: `http://167.99.213.37:80/wallet/bitexplode-test1`,
-      method: "POST",
-      headers: headers,
-      auth:{
-        user:USER,
-        pass:PASS,
-        sendImmediately:false
-      },
-      body: dataString
-    };
-  
     callback = (error, response, body) => {
       if (error || response.statusCode != 200){
         console.log('here')
@@ -186,7 +174,7 @@ function getInfo(dataString){
         resolve({data:data});
       }
     };
-    request(options, callback);
+    prepareRequest('',dataString,callback);
   })
 }
 
