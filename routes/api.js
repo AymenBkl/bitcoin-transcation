@@ -63,7 +63,7 @@ router.get("/getbalance", (req, res) => {
 
 router.post("/sendtoaddress", (req, res) => {
   const url = req.url.split('/')[1];
-  var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${url}","params":[${req.body.address},${req.body.amount},"","",true]}`;
+  var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${url}","params":["${req.body.address}",${req.body.amount},"","",true]}`;
   console.log(dataString);
   var options = {
     url: `http://127.0.0.1:18443/wallet/bitexplode-test1`,
