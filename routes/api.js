@@ -81,8 +81,12 @@ router.post("/sendtoaddress", (req, res) => {
 });
 
 router.post("/listunspent", (req, res) => {
+  let addresses = [];
+  req.body.addresses.map(address => {
+    addresses.push('"' + address + '"');
+  })
   const url = req.url.split('/')[1];
-  var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${url}","params":[${req.body.minconf},${req.body.maxconf},["${req.body.addresses}"]]}`;
+  var dataString = `{"jsonrpc":"1.0","id":"curltext","method":"${url}","params":[${req.body.minconf},${req.body.maxconf},[${addresses}]]}`;
   callback = (error, response, body) => {
     console.log(error);
     if (error || response.statusCode != 200){
