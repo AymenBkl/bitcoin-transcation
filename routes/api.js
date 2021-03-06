@@ -129,7 +129,7 @@ router.get("/decoderawtransaction/:hex", (req, res) => {
 function prepareRequest(dataString,callback){
   console.log(dataString);
   var options = {
-    url: `http://167.99.213.37:80/wallet/bitexplode-test1`,
+    url: `http://167.99.213.37:80/wallet/bitexplodetest3`,
     method: "POST",
     headers: headers,
     auth:{
